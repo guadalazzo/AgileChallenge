@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
-import getMockText from '../text.service';
 import './FileZone.css';
 
 class FileZone extends Component {
-    constructor(){
-        super();
-        this.state = {
-            results:'',
-        }
-    }
-    componentDidMount() {
-        getMockText()
-            .then(results => this.setState({results}))
-            .catch(err=> console.log('ERR: ',err))
-    }
     render() {
+        const createMarkup = text => ({ __html: text });
+
         return (
             <div id="file-zone">
                 <div id="file">
-                    <p>{ '' || this.state.results}</p>
+                {this.props.results.map((word, index) => 
+                    <span dangerouslySetInnerHTML={createMarkup(word)} onDoubleClick={(e) => this.props.onDoubleClick(e, index)}></span>)
+                }
                 </div>
             </div>
         );
