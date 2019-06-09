@@ -9,7 +9,17 @@ class App extends Component {
         super(props);
         this.state= {
             results: [],
+            selectedWord: {
+                index: null,
+                text:'',
+                modifiers:[
+                {bold: false},
+                {italic: false},
+                {underline: false},
+                ]
+            }
         }
+        this.handleClick = this.handleClick.bind(this);
         this.handleDoubleClick = this.handleDoubleClick.bind(this);
     }
     componentDidMount() {
@@ -20,18 +30,25 @@ class App extends Component {
             })
             .catch(err=> console.log('ERR: ',err))
     }
-    handleClick() {
-
+    handleClick(e) {
+        const { text, index } = this.state.selectedWord;
+        console.log(this.state.selectedWord.modifiers.bold);
+        const { bold, italic, underline } = this.state.selectedWord.modifiers;
+        if (this.state.selectedWord.index !== null) {
+            if (e.target.value === 'bold') {
+                this.setState(prevState => ({selectedWord:{ modifiers : [...{bold:!prevState.selectedWord.bold}]}}));
+                const replaceHtml = `<b>${text}</b>`;
+                this.state.results.splice(this.state.selectedWord.index,1, replaceHtml);
+            }
+            console.log(e.target.value);
+            this.setState({results:this.state.results});
+        }
+        
     }
     handleDoubleClick(e, index) {
-        console.log('selected:',e.target.textContent);
-        console.log('results:', this.state.results);
-        const indexTarget = index;
-        console.log('index target',indexTarget);
-        const newResult = this.state.results.splice(indexTarget,1, `<b>${e.target.textContent}</b>`);
-        console.log(newResult);
-        console.log(this.state.results);
-        this.setState({results:this.state.results});
+        console.log(e.target.textContent);
+        this.setState({selectedWord:{index: index,text:e.target.textContent}});
+        
     }
     render() {
         return (

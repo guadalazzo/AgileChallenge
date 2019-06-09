@@ -9,7 +9,7 @@ class FileZone extends Component {
             <div id="file-zone">
                 <div id="file">
                 {this.props.results.map((word, index) => 
-                    <span dangerouslySetInnerHTML={createMarkup(word)} onDoubleClick={(e) => this.props.onDoubleClick(e, index)}></span>)
+                    <span key={`${word}at${index}`} dangerouslySetInnerHTML={createMarkup(word)} value={word} onDoubleClick={(e) => this.props.onDoubleClick(e, index)}></span>)
                 }
                 </div>
             </div>
