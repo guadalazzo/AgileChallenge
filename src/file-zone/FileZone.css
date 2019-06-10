@@ -13,6 +13,9 @@
     background-color: #fff;
     border: 1px solid #e4dede;
 }
+.paragraph {
+    margin: 1em;
+}
 #file .bold {
     font-weight: bold;
 }

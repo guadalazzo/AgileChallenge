@@ -3,6 +3,7 @@ import './App.css';
 import ControlPanel from "./control-panel/ControlPanel";
 import FileZone from "./file-zone/FileZone";
 import getMockText from './text.service';
+import getSynonym from './syn.service';
 
 class App extends Component {
     constructor(props){
@@ -18,6 +19,7 @@ class App extends Component {
         this.handleDoubleClick = this.handleDoubleClick.bind(this);
     }
     componentDidMount() {
+       
         getMockText()
             .then(res => {
                 const results = res.split(/(\s+)/);
@@ -25,10 +27,18 @@ class App extends Component {
                     text: word,
                     index,
                 }))
+                localStorage.getItem('words') && JSON.parse(localStorage.getItem('words')).length > 0 ? 
+                this.setState({results: JSON.parse(localStorage.getItem('words'))}) : 
                 this.setState({results: wordsList});
             })
             .catch(err=> console.log('ERR: ',err))
     }
+    getSyn(word) {
+        getSynonym(word)
+        .then(res=> console.log(res.data))
+        .catch(err => console.log('ERR: ',err));
+    }
+    
     handleClick(type) {
         const { text, index } = this.state.selectedWord;
         if (this.state.selectedWord.index !== null) {
@@ -42,12 +52,16 @@ class App extends Component {
                 this.state.results[index].underline = !this.state.results[index].underline;
             }
             this.setState({results: this.state.results});
+            this.setLocalStorage(this.state.results)
+
         }
-        
     }
     handleDoubleClick(e, index) {
-        console.log(e.target.textContent);
+        this.getSyn(e.target.textContent);
         this.setState({selectedWord:{index: index,text:e.target.textContent}});
+    }
+    setLocalStorage(results){
+        localStorage.setItem('words', JSON.stringify(results));
     }
     render() {
         return (
