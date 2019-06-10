@@ -1,0 +1,13 @@
+.popup {
+  position: absolute;
+  width: fit-content;
+  background: #fff;
+  text-align: center;
+  right: 10%;
+  padding: 1em;
+  top: 14%;
+  justify-content: space-evenly;
+  flex-direction: column;
+  display: flex;
+  border: 1px solid;
+}
