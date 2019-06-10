@@ -13,3 +13,12 @@
     background-color: #fff;
     border: 1px solid #e4dede;
 }
+#file .bold {
+    font-weight: bold;
+}
+#file .italic {
+    font-style: italic;
+}
+#file .underline {
+    text-decoration: underline;
+}

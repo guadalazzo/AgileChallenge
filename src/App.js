@@ -12,11 +12,6 @@ class App extends Component {
             selectedWord: {
                 index: null,
                 text:'',
-                modifiers:[
-                {bold: false},
-                {italic: false},
-                {underline: false},
-                ]
             }
         }
         this.handleClick = this.handleClick.bind(this);
@@ -26,29 +21,33 @@ class App extends Component {
         getMockText()
             .then(res => {
                 const results = res.split(/(\s+)/);
-                this.setState({results})
+                const wordsList = results.map((word, index) => ({
+                    text: word,
+                    index,
+                }))
+                this.setState({results: wordsList});
             })
             .catch(err=> console.log('ERR: ',err))
     }
-    handleClick(e) {
+    handleClick(type) {
         const { text, index } = this.state.selectedWord;
-        console.log(this.state.selectedWord.modifiers.bold);
-        const { bold, italic, underline } = this.state.selectedWord.modifiers;
         if (this.state.selectedWord.index !== null) {
-            if (e.target.value === 'bold') {
-                this.setState(prevState => ({selectedWord:{ modifiers : [...{bold:!prevState.selectedWord.bold}]}}));
-                const replaceHtml = `<b>${text}</b>`;
-                this.state.results.splice(this.state.selectedWord.index,1, replaceHtml);
+            if (type === 'bold') {
+                this.state.results[index].bold = !this.state.results[index].bold;
             }
-            console.log(e.target.value);
-            this.setState({results:this.state.results});
+            if (type === 'italic') {
+                this.state.results[index].italic = !this.state.results[index].italic;
+            }
+            if (type === 'underline') {
+                this.state.results[index].underline = !this.state.results[index].underline;
+            }
+            this.setState({results: this.state.results});
         }
         
     }
     handleDoubleClick(e, index) {
         console.log(e.target.textContent);
         this.setState({selectedWord:{index: index,text:e.target.textContent}});
-        
     }
     render() {
         return (

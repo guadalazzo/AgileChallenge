@@ -3,13 +3,18 @@ import './FileZone.css';
 
 class FileZone extends Component {
     render() {
-        const createMarkup = text => ({ __html: text });
 
         return (
             <div id="file-zone">
                 <div id="file">
-                {this.props.results.map((word, index) => 
-                    <span key={`${word}at${index}`} dangerouslySetInnerHTML={createMarkup(word)} value={word} onDoubleClick={(e) => this.props.onDoubleClick(e, index)}></span>)
+                {this.props.results.map((result, index) =>     
+                        <span 
+                            className={`${result.bold ? 'bold ':''}${result.italic ? ' italic':''}${result.underline ? ' underline':''}`}
+                            key={`${result.text}at${index}`} 
+                            onDoubleClick={(e) => this.props.onDoubleClick(e, index)}>
+                            {result.text}
+                        </span>
+                    )
                 }
                 </div>
             </div>
