@@ -20,6 +20,8 @@ class App extends Component {
         this.getSyn = this.getSyn.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleDoubleClick = this.handleDoubleClick.bind(this);
+        this.changeWord = this.changeWord.bind(this);
+
     }
     componentDidMount() {
        
@@ -34,12 +36,12 @@ class App extends Component {
                 this.setState({results: JSON.parse(localStorage.getItem('words'))}) : 
                 this.setState({results: wordsList});
             })
-            .catch(err=> console.log('ERR: ',err))
+            .catch(err=> console.log('ERR on Initial render: ',err))
     }
     getSyn(word) {
          getSynonym(word)
         .then(res => this.setState({selectedWord:{...this.state.selectedWord, synList: res.data}}))
-        .catch(err => console.log('ERR: ',err));
+        .catch(err => console.log('ERR charging synonyms: ',err));
     }
     
     handleClick(type) {
@@ -65,6 +67,11 @@ class App extends Component {
     setLocalStorage(results){
         localStorage.setItem('words', JSON.stringify(results));
     }
+    changeWord(word) {
+        this.state.results[this.state.selectedWord.index].text = word;
+        this.setState({results: this.state.results})
+        this.setLocalStorage(this.state.results)
+    }
     render() {
         return (
             <div className="App">
@@ -72,9 +79,9 @@ class App extends Component {
                     <span>Simple Text Editor</span>
                 </header>
                 <main>
-                   {this.state.selectedWord.synList && <SynModal synList={this.state.selectedWord.synList}/>} 
+                   {this.state.selectedWord.synList && this.state.selectedWord.synList.length > 0 && <SynModal synList={this.state.selectedWord.synList} onClick={this.changeWord}/>} 
                     <ControlPanel onClick={this.handleClick}/>
-                    <FileZone results={this.state.results} onDoubleClick={this.handleDoubleClick}/>
+                    <FileZone getRef={this.getRef} results={this.state.results} onDoubleClick={this.handleDoubleClick}/>
                 </main>
             </div>
         );

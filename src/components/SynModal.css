@@ -1,13 +1,27 @@
+
 .popup {
-  position: absolute;
-  width: fit-content;
-  background: #fff;
-  text-align: center;
-  right: 10%;
-  padding: 1em;
+  position: fixed;
+  width: 20%;
   top: 14%;
-  justify-content: space-evenly;
-  flex-direction: column;
+  right: 2%;
+  color: #ffffff;
+  background: #000000b3;
   display: flex;
-  border: 1px solid;
+  justify-content: center;
+  flex-wrap: wrap;
+  border-radius: 5px;
+}
+.popup h3 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0;
+}
+.popup span {
+  width: fit-content;
+  padding: 0.5em;
+  color: #ffffff;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 6px;
 }
